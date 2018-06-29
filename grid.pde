@@ -9,10 +9,10 @@ class Grid {
       }
     }
   }
-  void add(int xcoord[], int ycoord[], color shade) {
-    for (int i = 0; i < (xcoord.length); i++) {
-      blocks[xcoord[i]] [ycoord[i]] = true;
-      blockcolors[xcoord[i]] [ycoord[i]] = shade;
+  void add(int coord[][], color shade) {
+    for (int i = 0; i < (coord.length); i++) {
+      blocks[coord[i][0]] [coord[i][1]] = true;
+      blockcolors[coord[i][0]] [coord[i][1]] = shade;
     }
   }
   
@@ -28,13 +28,15 @@ class Grid {
     }
   }
   
-  boolean clearPath(int xcoord[], int ycoord[]) {
-    //if no blocks below or floor, returns true
-    for(int i = 0; i < xcoord.length; i++) {
+  boolean testCoord(int coord[][]) {
+    //if no blocks in the way of proposed change, returns true
+    for(int i = 0; i < coord.length; i++) {
       try {
-      if (ycoord[i] == CELL_ROWS || blocks[xcoord[i]] [ycoord[i] + 1]) {
+      if ((coord[i][1] > CELL_ROWS) || (blocks[coord[i][0]] [coord[i][1]])
+        || coord[i][0] < 0 || coord[i][0] > CELL_COLUMNS) { 
+        //tests if coordinate beyond L, R, and bottom boundaries, tests if block added already exists where plan to move
         return false;
-        }
+        } 
       } catch (ArrayIndexOutOfBoundsException e) {
         return false;
       }

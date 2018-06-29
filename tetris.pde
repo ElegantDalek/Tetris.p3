@@ -10,6 +10,7 @@ color green = color(132, 255, 3);
 color red = color(240, 31, 35);
 color blue = color(59, 63, 242);
 color orange = color(224, 157, 23);
+color black = color(0, 0, 0);
 Ttetris tetrist = new Ttetris();
 Grid grid = new Grid();
 
@@ -24,7 +25,7 @@ void draw() {
   grid.draw();
   tetrist.draw();
   int time = millis();
-  if (time % 1000 < 25){ 
+  if (time % 1000 < 25){ //timing mechanism seems to not work first time, adjust
     tetrist.drop();
   }
   
@@ -39,9 +40,6 @@ void keyPressed() {
       tetrist.move(false);
     }
     else if (keyCode == UP) {
-      printArray(tetrist.getCoord(true));
-      printArray(tetrist.getCoord(false));
-      grid.add(tetrist.getCoord(true), tetrist.getCoord(false), tetrist.getColor());
     }
   }
 }
@@ -53,8 +51,5 @@ void keyReleased() {
   }
   else if (key == 'q') {
     tetrist.rotate(true);
-  }
-  else if (key == ' ') {
-    tetrist.harddrop();
   }
 }

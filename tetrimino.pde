@@ -1,6 +1,7 @@
 class Tetrimino {
   int positionX = 4;
   int positionY = 0;
+  color shade = black;
   boolean isActive = true;
   boolean[][] piece = new boolean[4][4];
 
@@ -11,7 +12,7 @@ class Tetrimino {
     for (int i = 0; i < 4; i++){
       for (int j = 0; j < 4; j++){
         if (piece[i][j]) {
-          fill(0);
+          fill(shade);
           rect(ORIGINX + CELL_WIDTH * (positionX + i), ORIGINY + CELL_WIDTH * (positionY + j), CELL_WIDTH, CELL_WIDTH);
           fill(255);
         }
@@ -19,24 +20,29 @@ class Tetrimino {
     }
   }
   void drop() {
-    if (isActive()) {
-      if (grid.clearPath(this.getCoord(true), this.getCoord(false))) {
-        positionY += 1;
+    if (this.isActive()) {
+      int[][] testDrop = this.getCoord(); //copies coordinates to test with testCoord
+      for ( int i = 0; i < testDrop.length; i++) {
+        testDrop[i][1] += 1; //Adds predicted drop of 1
+      }
+      if (grid.testCoord(testDrop)){ 
+        positionY += 1; //Increments position
       }
       else {
-        grid.add(this.getCoord(true), this.getCoord(false), this.getColor());
+        grid.add(this.getCoord(), this.getColor()); //adds location and color data to grid object
         isActive = false;
         nextTetris();
       }
     }
   }
-  void rotate(boolean clockwise) { 
-    boolean[][] temp = new boolean[3][3];
+
   boolean isActive(){
     return isActive;
 }
   void rotate(boolean clockwise) {
-    //rotates the piece, takes boolean that if true is clockwise, else counterclockwis             for (int i = 0; i < 3; i++) {
+    //rotates the piece, takes boolean that if true is clockwise, else counterclockwise
+    boolean[][] temp = new boolean[3][3];
+    for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         temp[i][j] = piece[i][j]; //copies array data
       }
@@ -51,32 +57,43 @@ class Tetrimino {
         }
       }
     }
+    if (!grid.testCoord(this.getCoord())) { //infinite jank, may cause loop?
+      this.rotate(clockwise);
+    }
   }
   
   void move(boolean right) {
-
+    int[][] test = this.getCoord(); //copies coordinates to test with testCoord, see drop
     if (right) {
-      positionX += 1;
-    }
-    else {
-      positionX -= 1;
-    }
-  }
-  int[] getCoord(boolean wantx) {
-    int[] xcoord = new int[4];
-    int[] ycoord = new int[4];
-    int count = 0;
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) { 
-        if (piece[i][j]) {
-          xcoord[count] = i + positionX;
-          ycoord[count] = j + positionY;
-          count++;
-        }
+      for ( int i = 0; i < test.length; i++) {
+        test[i][0] += 1; 
+      }
+      if (grid.testCoord(test)) {
+        positionX += 1;
       }
     }
-    if (wantx) { return xcoord; }
-    else { return ycoord; }
+    else {
+      for ( int i = 0; i < test.length; i++) {
+        test[i][0] -= 1; 
+      }
+      if (grid.testCoord(test)) {
+        positionX -= 1;
+      }
+    }
+  }
+  int[][] getCoord() { //gets x and y position of the tetrimino piece, x stored in [i][0], y stored in [i][1]
+    int[][] coord = new int[4][2];
+    int index = 0;
+      for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+          if (piece[i][j]) {
+            coord[index][0] = i + positionX;
+            coord[index][1] = j + positionY;
+            index++;
+          }
+        }
+      }
+      return coord;
   }
   
   

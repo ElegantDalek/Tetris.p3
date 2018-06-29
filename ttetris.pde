@@ -9,16 +9,6 @@ class Ttetris extends Tetrimino {
     piece[0][2] = false;
     piece[1][2] = false;
     piece[2][2] = false;
-  }
-  void draw() {
-    for (int i = 0; i < 4; i++){
-      for (int j = 0; j < 4; j++){
-        if (piece[i][j]) {
-          fill(purple);
-          rect(ORIGINX + CELL_WIDTH * (positionX + i), ORIGINY + CELL_WIDTH * (positionY + j), CELL_WIDTH, CELL_WIDTH);
-          fill(255);
-        }
-      }
-    }
+    shade = purple;
   }
 }
