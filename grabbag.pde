@@ -1,26 +1,23 @@
 class GrabBag {
   int previewX = 12;
   int[] queue = new int[14];
+  Tetrimino[] preview = new Tetrimino[7];
   int index = 0;
-  Ttetris ttetrisp = new Ttetris(); //preview pieces at right
-  Ztetris ztetrisp = new Ztetris();
-  Stetris stetrisp = new Stetris();
-  Ltetris ltetrisp = new Ltetris();
-  Jtetris jtetrisp = new Jtetris();
-  Otetris otetrisp = new Otetris();
-  Itetris itetrisp = new Itetris();
   GrabBag() {
     this.choose();
     this.choose(); //grabs 7 pieces
-    ttetrisp.setPosition(previewX, 0);
-    ztetrisp.setPosition(previewX, 0);
-    stetrisp.setPosition(previewX, 0);
-    ltetrisp.setPosition(previewX, 0);
-    jtetrisp.setPosition(previewX, 0);
-    otetrisp.setPosition(previewX, 0);
-    itetrisp.setPosition(previewX, 0);
+    preview[0] = new Ttetris();
+    preview[1] = new Ztetris();
+    preview[2] = new Stetris();
+    preview[3] = new Ltetris();
+    preview[4] = new Jtetris();
+    preview[5] = new Otetris();
+    preview[6] = new Itetris();
+    for (Tetrimino i : preview) {
+      i.setPosition(previewX, 0);
+    }
   }
-  
+
   int getPiece() { //returns int code of next piece, removes it from list
     int nextPiece = queue[0];
     removeItem(nextPiece, queue);
@@ -45,37 +42,16 @@ class GrabBag {
       if (!itemPopped) {
         if (number == array[i] ) {
           itemPopped = true;
-        } 
+        }
+      } else {
+        array[i - 1] = array[i];
       }
-      else {
-          array[i - 1] = array[i];
-      }
-    }
-  }
-  Tetrimino convert(int code) {
-    switch(code) {
-      case 0:
-        return ttetrisp;
-      case 1:
-        return ztetrisp;
-      case 2:
-        return stetrisp;
-      case 3:
-        return ltetrisp;
-      case 4:
-        return jtetrisp;
-      case 5:
-        return otetrisp;
-      case 6:
-        return itetrisp;
-      default:
-        return ttetrisp;
     }
   }
   void showPreview() {
-    for(int i = 0; i < 5; i++) {
-      convert(queue[i]).setPosition(previewX, 0 + i * 3);
-      convert(queue[i]).draw();
+    for (int i = 0; i < 5; i++) {
+      preview[queue[i]].setPosition(previewX, 0 + i * 3);
+      preview[queue[i]].draw();
     }
   }
 }

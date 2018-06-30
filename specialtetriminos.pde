@@ -1,19 +1,3 @@
-class FutureTetrimino extends Tetrimino {
-  //the gray piece showing where the piece will land if you do a harddrop
-  FutureTetrimino(){
-    shade = black;
-  }
-  
-  void update() { //just copies activeTetrimino orientation
-    for(int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        piece[i][j] = piecehandler.getActive().getPiece()[i][j]; //gets activeTetrimino boolean coordinates of orientation
-      }
-    }
-    this.hardDrop();
-  }
-  
-}
 
 class Otetris extends Tetrimino {
   Otetris() {
@@ -42,7 +26,7 @@ class Itetris extends Tetrimino {
     defaultY = -1;
     shade = cyan;
   }
-  
+
   void setdefault() {
     for (int i = 0; i < 4; i++) { //ONLY FOR IPIECE
       for (int j = 0; j < 4; j++) {

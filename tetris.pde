@@ -51,6 +51,9 @@ void keyPressed() {
     else if (keyCode == DOWN) {
       piecehandler.drop();
     }
+    else if (keyCode == SHIFT) {
+      //TODO PIECE HOLD
+    }
   }
 }
 

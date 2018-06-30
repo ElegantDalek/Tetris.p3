@@ -22,22 +22,22 @@ class Tetrimino {
     }
   }
   
-  void drop() {
-    if (this.isActive()) {
-      int[][] testDrop = this.getCoord(); //copies coordinates to test with testCoord
-      for ( int i = 0; i < testDrop.length; i++) {
-        testDrop[i][1] += 1; //Adds predicted drop of 1
-      }
-      if (grid.testCoord(testDrop)){ 
-        positionY += 1; //Increments position
-      }
-      else {
-        grid.add(this.getCoord(), this.getColor()); //adds location and color data to grid object
-        isActive = false;
-        piecehandler.nextTetris();
+    void drop() {
+      if (this.isActive()) {
+        int[][] testDrop = this.getCoord(); //copies coordinates to test with testCoord
+        for ( int i = 0; i < testDrop.length; i++) {
+          testDrop[i][1] += 1; //Adds predicted drop of 1
+        }
+        if (grid.testCoord(testDrop)){ 
+          positionY += 1; //Increments position
+        }
+        else {
+          grid.add(this.getCoord(), this.getColor()); //adds location and color data to grid object
+          isActive = false;
+          piecehandler.nextTetris();
+        }
       }
     }
-  }
   
   void hardDrop() {
     while( this.isActive() ) {
