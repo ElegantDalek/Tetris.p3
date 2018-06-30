@@ -44,4 +44,35 @@ class Grid {
     }
     return true;
   }
+  
+  int checkLines() { //goes down, if coord row all true, removes lines
+    int linescleared = 0;
+    for (int j = 0; j < CELL_ROWS; j++) {
+      boolean linefull = true;
+      for (int i = 0; i < CELL_COLUMNS; i++) {
+        if (blocks[i][j] == false) {
+          linefull = false;
+        }
+      }
+      if (linefull) {
+        linescleared += 1;
+        this.clearline(j);
+      }
+    }
+    return linescleared;
+  }
+  
+  void clearline(int line) {
+    for( ;line > 0; line--) {
+      for (int i = 0; i < CELL_COLUMNS; i++) {
+        try {
+          blocks[i][line] = blocks[i][line - 1];
+          blockcolors[i][line] = blockcolors[i][line - 1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+          blocks[i][line] = false;
+          blockcolors[i][line] = white;
+        }
+      }
+    }
+  }
 }

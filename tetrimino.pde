@@ -1,6 +1,8 @@
 class Tetrimino {
-  int positionX = 4;
-  int positionY = 0;
+  int defaultX = 4;
+  int defaultY = 0;
+  int positionX = defaultX;
+  int positionY = defaultY;
   color shade = black;
   boolean isActive = true;
   boolean[][] piece = new boolean[4][4];
@@ -13,12 +15,13 @@ class Tetrimino {
       for (int j = 0; j < 4; j++){
         if (piece[i][j]) {
           fill(shade);
-          rect(ORIGINX + CELL_WIDTH * (positionX + i), ORIGINY + CELL_WIDTH * (positionY + j), CELL_WIDTH, CELL_WIDTH);
-          fill(255);
+          rect(ORIGINX + CELL_WIDTH * (positionX + i), ORIGINY + CELL_WIDTH * (positionY + j), CELL_WIDTH, CELL_WIDTH); //clunky, make cell object?
+          fill(white);
         }
       }
     }
   }
+  
   void drop() {
     if (this.isActive()) {
       int[][] testDrop = this.getCoord(); //copies coordinates to test with testCoord
@@ -31,8 +34,14 @@ class Tetrimino {
       else {
         grid.add(this.getCoord(), this.getColor()); //adds location and color data to grid object
         isActive = false;
-        nextTetris();
+        piecehandler.nextTetris();
       }
+    }
+  }
+  
+  void hardDrop() {
+    while( this.isActive() ) {
+      this.drop();
     }
   }
 
@@ -62,6 +71,10 @@ class Tetrimino {
     }
   }
   
+  void setdefault() {
+    //sets default orientation for pieces
+  }
+  
   void move(boolean right) {
     int[][] test = this.getCoord(); //copies coordinates to test with testCoord, see drop
     if (right) {
@@ -84,8 +97,8 @@ class Tetrimino {
   int[][] getCoord() { //gets x and y position of the tetrimino piece, x stored in [i][0], y stored in [i][1]
     int[][] coord = new int[4][2];
     int index = 0;
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
+      for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
           if (piece[i][j]) {
             coord[index][0] = i + positionX;
             coord[index][1] = j + positionY;
@@ -98,18 +111,21 @@ class Tetrimino {
   
   
   color getColor() {
-    return purple;
-    //TODO
+    return shade;
   }
   
-  void nextTetris() {
-    tetrist.reset(); 
-    //TODO
+  void setPosition(int x, int y) {
+    positionX = x;
+    positionY = y;
+  }
+  
+  boolean[][] getPiece() {
+    return piece;
   }
   
   void reset() {
-    positionX = 4;
-    positionY = 0;
+    this.setPosition(defaultX, defaultY);
+    this.setdefault();
     isActive = true;
   }
 }
