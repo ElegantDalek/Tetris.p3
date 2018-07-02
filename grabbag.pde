@@ -17,6 +17,12 @@ class GrabBag {
       i.setPosition(previewX, 0);
     }
   }
+  
+  void reset() {
+    index = 0;
+    this.choose();
+    this.choose();
+  }
 
   int getPiece() { //returns int code of next piece, removes it from list
     int nextPiece = queue[0];

@@ -14,13 +14,14 @@ color blue = color(59, 63, 242);
 color orange = color(224, 157, 23);
 color black = color(0, 0, 0);
 color white = color(255, 255, 255);
+color gray = color(175, 175, 175);
 Grid grid = new Grid();
 GrabBag bag = new GrabBag();
 PieceHandler piecehandler = new PieceHandler();
 GameHandler gamehandler = new GameHandler();
 void setup() {
   size(800, 700);
-  frameRate(60);
+  frameRate(30);
   background(255);
 
 }
@@ -29,10 +30,9 @@ void draw() {
   background(white); //refreshes backgronud, removes lingering pixels
   grid.draw(); //draws the cells, pieces added to grid object
   piecehandler.draw(); //draws currently active piece
-  bag.showPreview(); //draws next 5? pieces
-  gamehandler.showScore();
+  gamehandler.update();
   int time = millis();
-  if (time % 500 < 15){ //timing mechanism seems to not work first time, adjust
+  if (time % 1000 < 30){ //timing mechanism seems to not work first time, adjust
     piecehandler.drop();
   }
 }
@@ -46,13 +46,13 @@ void keyPressed() {
       piecehandler.move(false);
     }
     else if (keyCode == UP) {
-      piecehandler.harddrop();
+      piecehandler.rotate(true);
     }
     else if (keyCode == DOWN) {
       piecehandler.drop();
     }
     else if (keyCode == SHIFT) {
-      //TODO PIECE HOLD
+      piecehandler.hold();
     }
   }
 }

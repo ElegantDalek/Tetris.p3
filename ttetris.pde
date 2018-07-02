@@ -4,15 +4,17 @@ class Ttetris extends Tetrimino {
     shade = purple;
   }
   void setdefault() {
-    piece[0][0] = false;
-    piece[1][0] = true;
-    piece[2][0] = false;
-    piece[0][1] = true;
-    piece[1][1] = true;
-    piece[2][1] = true;
-    piece[0][2] = false;
-    piece[1][2] = false;
-    piece[2][2] = false;
+    piece[0][0] = 1;
+    piece[0][1] = 0;
+    
+    piece[1][0] = 0;
+    piece[1][1] = 1;
+    
+    piece[2][0] = 1;
+    piece[2][1] = 1;
+    
+    piece[3][0] = 2;
+    piece[3][1] = 1;
   }
 }
 
@@ -22,15 +24,18 @@ class Ztetris extends Tetrimino {
     shade = red;
   }
   void setdefault() {
-    piece[0][0] = true;
-    piece[1][0] = true;
-    piece[2][0] = false;
-    piece[0][1] = false;
-    piece[1][1] = true;
-    piece[2][1] = true;
-    piece[0][2] = false;
-    piece[1][2] = false;
-    piece[2][2] = false;
+    piece[0][0] = 0;
+    piece[0][1] = 0;
+    
+    piece[1][0] = 1;
+    piece[1][1] = 0;
+    
+    piece[2][0] = 1;
+    piece[2][1] = 1;
+    
+    piece[3][0] = 2;
+    piece[3][1] = 1;
+
   }
 }
 
@@ -40,15 +45,18 @@ class Stetris extends Tetrimino {
     shade = green;
   }
   void setdefault() {
-    piece[0][0] = false;
-    piece[1][0] = true;
-    piece[2][0] = true;
-    piece[0][1] = true;
-    piece[1][1] = true;
-    piece[2][1] = false;
-    piece[0][2] = false;
-    piece[1][2] = false;
-    piece[2][2] = false;
+    piece[0][0] = 1;
+    piece[0][1] = 0;
+    
+    piece[1][0] = 2;
+    piece[1][1] = 0;
+    
+    piece[2][0] = 0;
+    piece[2][1] = 1;
+    
+    piece[3][0] = 1;
+    piece[3][1] = 1;
+
   }
 }
 
@@ -58,15 +66,17 @@ class Ltetris extends Tetrimino {
     shade = orange;
   }
   void setdefault() {
-    piece[0][0] = false;
-    piece[1][0] = false;
-    piece[2][0] = true;
-    piece[0][1] = true;
-    piece[1][1] = true;
-    piece[2][1] = true;
-    piece[0][2] = false;
-    piece[1][2] = false;
-    piece[2][2] = false;
+    piece[0][0] = 2;
+    piece[0][1] = 0;
+    
+    piece[1][0] = 0;
+    piece[1][1] = 1;
+    
+    piece[2][0] = 1;
+    piece[2][1] = 1;
+    
+    piece[3][0] = 2;
+    piece[3][1] = 1;
   }
 }
 
@@ -76,14 +86,16 @@ class Jtetris extends Tetrimino {
     shade = blue;
   }
   void setdefault() {
-    piece[0][0] = true;
-    piece[1][0] = false;
-    piece[2][0] = false;
-    piece[0][1] = true;
-    piece[1][1] = true;
-    piece[2][1] = true;
-    piece[0][2] = false;
-    piece[1][2] = false;
-    piece[2][2] = false;
+    piece[0][0] = 0;
+    piece[0][1] = 0;
+    
+    piece[1][0] = 0;
+    piece[1][1] = 1;
+    
+    piece[2][0] = 1;
+    piece[2][1] = 1;
+    
+    piece[3][0] = 2;
+    piece[3][1] = 1;
   }
 }

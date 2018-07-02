@@ -5,15 +5,18 @@ class Otetris extends Tetrimino {
     shade = yellow;
   }
   void setdefault() {
-    piece[0][0] = false;
-    piece[1][0] = true;
-    piece[2][0] = true;
-    piece[0][1] = false;
-    piece[1][1] = true;
-    piece[2][1] = true;
-    piece[0][2] = false;
-    piece[1][2] = false;
-    piece[2][2] = false;
+    piece[0][0] = 1;
+    piece[0][1] = 0;
+    
+    piece[1][0] = 2;
+    piece[1][1] = 0;
+    
+    piece[2][0] = 1;
+    piece[2][1] = 1;
+    
+    piece[3][0] = 2;
+    piece[3][1] = 1;
+
   }
   void rotate(boolean clockwise) {
   }
@@ -28,21 +31,35 @@ class Itetris extends Tetrimino {
   }
 
   void setdefault() {
-    for (int i = 0; i < 4; i++) { //ONLY FOR IPIECE
-      for (int j = 0; j < 4; j++) {
-        piece[i][j] = (j == 1);
-      }
-    }
+    piece[0][0] = 0;
+    piece[0][1] = 1;
+    
+    piece[1][0] = 1;
+    piece[1][1] = 1;
+    
+    piece[2][0] = 2;
+    piece[2][1] = 1;
+    
+    piece[3][0] = 3;
+    piece[3][1] = 1;
   }
   void rotate(boolean clockwise) {
     if (stateone) {
-      for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-          piece[i][j] = (i == 1);
-        }
+        piece[0][0] = 1;
+        piece[0][1] = 0;
+        
+        piece[1][0] = 1;
+        piece[1][1] = 1;
+        
+        piece[2][0] = 1;
+        piece[2][1] = 2;
+        
+        piece[3][0] = 1;
+        piece[3][1] = 3;
+        
+        stateone = false;
       }
-      stateone = false;
-    } else {
+    else {
       setdefault();
       stateone = true;
     }
