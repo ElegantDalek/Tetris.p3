@@ -1,15 +1,16 @@
 class Tetrimino {
   int defaultX = 4;
   int defaultY = 0;
+  int rotateState = 0;
   int positionX = defaultX;
   int positionY = defaultY;
   color shade = black;
   boolean isActive = false;
   int[][] piece = new int[4][2];
 
-
   Tetrimino() {
   }
+
   void draw() {
     int[][] coord = this.getCoord();
     int[][] shadow = grid.hardDropCoord(coord);
@@ -46,7 +47,7 @@ class Tetrimino {
     isActive = false;
     piecehandler.nextTetris();
   }
-  
+
   void setActive(boolean active) {
     this.isActive = active;
   }
@@ -57,23 +58,60 @@ class Tetrimino {
   void rotate(boolean clockwise) {
     //rotates the piece, takes boolean that if true is clockwise, else counterclockwise
     int[][] temp = new int[4][2];
-    for (int i = 0; i < piece.length; i++) {
+    for (int i = 0; i < piece.length; i++) { //copies piece to temp
       temp[i][0] = piece[i][0];
       temp[i][1] = piece[i][1];
     }
-    for (int i = 0; i < piece.length; i++) {
+    for (int i = 0; i < piece.length; i++) { //rotates test coordinates of temp
       if (clockwise) {
-        piece[i][0] = -1 * temp[i][1]+ 2;
-        piece[i][1] = temp[i][0];
+        temp[i][0] = (-1 * piece[i][1]) + 2;
+        temp[i][1] = piece[i][0];
       } else {
-        piece[i][0] = temp[i][1];
-        piece[i][1] = (-1 * temp[i][0]) + 2;
+        temp[i][0] = piece[i][1];
+        temp[i][1] = (-1 * piece[i][0]) + 2;
       }
     }
-    if (!grid.testCoord(this.getCoord())) { //infinite jank, may cause loop?
-      this.rotate(clockwise);
+    int[] translate = testCoord([temp], rotateState, clockwise);
+    if (translate[0] == 1) { //copies temp if correct
+      for (int i = 0; i < piece.length; i++) {
+        piece[i][0] = temp[i][0];
+        piece[i][0] = temp[i][1];
+      }
+      positionX += translate[1];
+      positionY += translate[2];
     }
   }
+
+  int[] testCoord(int[][] testCoord, int rotateState, boolean clockwise) {
+    //takes the coordinates of the rotated piece, the orientation and if it was clockwise or not
+    //returns an array containing [if successful or not (1 if true), shiftX, shiftY]
+    int [][] coord = shiftCoord(testCoord, positionX, positionY);
+    int shiftX, shiftY = 0;
+    if (clockwise) {
+      for (int i = 0; i < 5; i++) {
+        if (grid.testCoord(shiftCoord(coord, srs[rotateState][i][0], srs[rotateState][i][1])) ) {
+          return [1, srs[rotateState][i][0], srs[rotateState][i][1]];
+        }
+      }
+    } else { //TODO: combine for loops 
+      rotateState = (rotateState - 1) % 4;
+      for (int i = 0; i < 5; i++) {
+        if (grid.testCoord(shiftCoord(coord, -1 * srs[rotateState][i][0], -1 * srs[rotateState][i][1])) ) {
+          return [1, -1 * srs[rotateState][i][0], -1 * srs[rotateState][i][1]];
+        }
+      }
+    }
+    return [0, 0, 0];
+  }
+
+  int[][] shiftCoord(int[][] coord, int x, int y) {
+    for (int i = 0; i < coord.length; i++) {
+      coord[i][0] += x;
+      coord[i][1] += y;
+    }
+    return coord;
+  }
+
   void setdefault() {
     //sets default orientation for pieces
   }
@@ -122,6 +160,7 @@ class Tetrimino {
   void reset() {
     this.setPosition(defaultX, defaultY);
     this.setdefault();
+    this.rotateState = 0;
     gamehandler.setGameOver(!grid.testCoord(this.getCoord())); //checks if game over
     isActive = true;
   }
