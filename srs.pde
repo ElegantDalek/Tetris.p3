@@ -1,5 +1,6 @@
 class SRS {
   int[][][] srs = {
+    //Super Rotation System, a series of coordinates to test for each rotation
     //http://tetris.wikia.com/wiki/SRS
     { //3 >> 0 state, index 0
       {0, 0}, {-1, 0}, {-1, -1}, {0, 2}, {-1, 2}

@@ -55,17 +55,14 @@ class Tetrimino {
   boolean isActive() {
     return isActive;
   }
+
   void rotate(boolean clockwise) {
     //rotates the piece, takes boolean that if true is clockwise, else counterclockwise
+    int[] translate = new int[3];
     int[][] temp = new int[4][2];
-    int[] translate;
-    for (int i = 0; i < piece.length; i++) { //copies piece to temp
-      temp[i][0] = piece[i][0];
-      temp[i][1] = piece[i][1];
-    }
-    for (int i = 0; i < piece.length; i++) { //rotates test coordinates of temp
+    for (int i = 0; i < piece.length; i++) {
       if (clockwise) {
-        temp[i][0] = (-1 * piece[i][1]) + 2;
+        temp[i][0] = -1 * piece[i][1]+ 2;
         temp[i][1] = piece[i][0];
       } else {
         temp[i][0] = piece[i][1];
@@ -75,8 +72,9 @@ class Tetrimino {
     translate = testCoord(temp, rotateState, clockwise);
     if (translate[0] == 1) { //copies temp if correct
       for (int i = 0; i < piece.length; i++) {
+        print(temp[i][0] + " " + temp[i][1] + "\n");
         piece[i][0] = temp[i][0];
-        piece[i][0] = temp[i][1];
+        piece[i][1] = temp[i][1];
       }
       positionX += translate[1];
       positionY += translate[2];
@@ -93,20 +91,23 @@ class Tetrimino {
     int[] returnArray = new int[3];
     returnArray[0] = 0;
     if (clockwise) {
+      rotateState = (rotateState + 1) % 4;
       for (int i = 0; i < 5; i++) {
         if (grid.testCoord(shiftCoord(coord, srs.getSRS(rotateState, i, 0), srs.getSRS(rotateState, i, 1))) ) {
           shiftX = srs.getSRS(rotateState, i, 0);
           shiftY = srs.getSRS(rotateState, i, 0);
+          print(shiftX + " " + shiftY);
           works = true;
+          break;
         }
       }
     } else { //TODO: combine for loops 
-      rotateState = (rotateState - 1) % 4;
       for (int i = 0; i < 5; i++) {
         if (grid.testCoord(shiftCoord(coord, -1 * srs.getSRS(rotateState, i, 0), -1 * srs.getSRS(rotateState, i, 1))) ) {
           shiftX = srs.getSRS(rotateState, i, 0) * -1;
           shiftY = srs.getSRS(rotateState, i, 0) * -1;
           works = true;
+          break;
         }
       }
     }
@@ -117,11 +118,12 @@ class Tetrimino {
   }
 
   int[][] shiftCoord(int[][] coord, int x, int y) {
+    int[][] copy = new int[4][2];
     for (int i = 0; i < coord.length; i++) {
-      coord[i][0] += x;
-      coord[i][1] += y;
+      copy[i][0] = coord[i][0] + x;
+      copy[i][1] = coord[i][1] + y;
     }
-    return coord;
+    return copy;
   }
 
   void setdefault() {
