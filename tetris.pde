@@ -19,6 +19,7 @@ Grid grid = new Grid();
 GrabBag bag = new GrabBag();
 PieceHandler piecehandler = new PieceHandler();
 GameHandler gamehandler = new GameHandler();
+SRS srs = new SRS();
 void setup() {
   size(800, 700);
   frameRate(30);

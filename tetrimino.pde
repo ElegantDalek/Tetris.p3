@@ -58,6 +58,7 @@ class Tetrimino {
   void rotate(boolean clockwise) {
     //rotates the piece, takes boolean that if true is clockwise, else counterclockwise
     int[][] temp = new int[4][2];
+    int[] translate;
     for (int i = 0; i < piece.length; i++) { //copies piece to temp
       temp[i][0] = piece[i][0];
       temp[i][1] = piece[i][1];
@@ -71,7 +72,7 @@ class Tetrimino {
         temp[i][1] = (-1 * piece[i][0]) + 2;
       }
     }
-    int[] translate = testCoord([temp], rotateState, clockwise);
+    translate = testCoord(temp, rotateState, clockwise);
     if (translate[0] == 1) { //copies temp if correct
       for (int i = 0; i < piece.length; i++) {
         piece[i][0] = temp[i][0];
@@ -86,22 +87,33 @@ class Tetrimino {
     //takes the coordinates of the rotated piece, the orientation and if it was clockwise or not
     //returns an array containing [if successful or not (1 if true), shiftX, shiftY]
     int [][] coord = shiftCoord(testCoord, positionX, positionY);
-    int shiftX, shiftY = 0;
+    int shiftX = 0;
+    int shiftY = 0;
+    boolean works = false;
+    int[] returnArray = new int[3];
+    returnArray[0] = 0;
     if (clockwise) {
       for (int i = 0; i < 5; i++) {
-        if (grid.testCoord(shiftCoord(coord, srs[rotateState][i][0], srs[rotateState][i][1])) ) {
-          return [1, srs[rotateState][i][0], srs[rotateState][i][1]];
+        if (grid.testCoord(shiftCoord(coord, srs.getSRS(rotateState, i, 0), srs.getSRS(rotateState, i, 1))) ) {
+          shiftX = srs.getSRS(rotateState, i, 0);
+          shiftY = srs.getSRS(rotateState, i, 0);
+          works = true;
         }
       }
     } else { //TODO: combine for loops 
       rotateState = (rotateState - 1) % 4;
       for (int i = 0; i < 5; i++) {
-        if (grid.testCoord(shiftCoord(coord, -1 * srs[rotateState][i][0], -1 * srs[rotateState][i][1])) ) {
-          return [1, -1 * srs[rotateState][i][0], -1 * srs[rotateState][i][1]];
+        if (grid.testCoord(shiftCoord(coord, -1 * srs.getSRS(rotateState, i, 0), -1 * srs.getSRS(rotateState, i, 1))) ) {
+          shiftX = srs.getSRS(rotateState, i, 0) * -1;
+          shiftY = srs.getSRS(rotateState, i, 0) * -1;
+          works = true;
         }
       }
     }
-    return [0, 0, 0];
+    returnArray[0] = int(works);
+    returnArray[1] = shiftX;
+    returnArray[2] = shiftY;
+    return returnArray;
   }
 
   int[][] shiftCoord(int[][] coord, int x, int y) {
