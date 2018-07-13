@@ -16,6 +16,7 @@ color black = color(0, 0, 0);
 color white = color(255, 255, 255);
 color gray = color(175, 175, 175);
 Grid grid = new Grid();
+int prevtime = 0;
 GrabBag bag = new GrabBag();
 PieceHandler piecehandler = new PieceHandler();
 GameHandler gamehandler = new GameHandler();
@@ -32,9 +33,10 @@ void draw() {
   grid.draw(); //draws the cells, pieces added to grid object
   piecehandler.draw(); //draws currently active piece
   gamehandler.update();
-  int time = millis();
-  if (time % 1000 < 30){ //timing mechanism seems to not work first time, adjust
+  int time = second();
+  if (time != prevtime) {
     piecehandler.drop();
+    prevtime = time;
   }
 }
 
