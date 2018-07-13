@@ -72,16 +72,21 @@ class Tetrimino {
     translate = testCoord(temp, rotateState, clockwise);
     if (translate[0] == 1) { //copies temp if correct
       for (int i = 0; i < piece.length; i++) {
-        print(temp[i][0] + " " + temp[i][1] + "\n");
         piece[i][0] = temp[i][0];
         piece[i][1] = temp[i][1];
       }
-      positionX += translate[1];
+      if (clockwise) {
+        rotateState = (rotateState + 1) % 4;
+      } else {
+        rotateState = (rotateState + 3) % 4;;
+      }
+      print("TRANLATION: " + translate[1] + " " + translate[2] + "\n");
+      positionX += translate[1]; //copies translation data from srs
       positionY += translate[2];
     }
   }
 
-  int[] testCoord(int[][] testCoord, int rotateState, boolean clockwise) {
+  int[] testCoord(int[][] testCoord, int orientation, boolean clockwise) {
     //takes the coordinates of the rotated piece, the orientation and if it was clockwise or not
     //returns an array containing [if successful or not (1 if true), shiftX, shiftY]
     int [][] coord = shiftCoord(testCoord, positionX, positionY);
@@ -91,21 +96,27 @@ class Tetrimino {
     int[] returnArray = new int[3];
     returnArray[0] = 0;
     if (clockwise) {
-      rotateState = (rotateState + 1) % 4;
+      orientation = (orientation + 1) % 4; //converts it for srs, future orientation of rotateState
+      print(orientation + "\n");
       for (int i = 0; i < 5; i++) {
-        if (grid.testCoord(shiftCoord(coord, srs.getSRS(rotateState, i, 0), srs.getSRS(rotateState, i, 1))) ) {
-          shiftX = srs.getSRS(rotateState, i, 0);
-          shiftY = srs.getSRS(rotateState, i, 0);
-          print(shiftX + " " + shiftY);
+        int xtest =  srs.getSRS(orientation, i, 0);
+        int ytest = srs.getSRS(orientation, i, 1);
+        print(xtest + ", " + ytest + " " + grid.testCoord(shiftCoord(coord, xtest, ytest)) + "\n");
+        if (grid.testCoord(shiftCoord(coord, xtest, ytest) ) ) {
+          shiftX = xtest;
+          shiftY = ytest;
           works = true;
           break;
         }
       }
-    } else { //TODO: combine for loops 
+    } else { //TODO: combine for loops, add xtest and ytest
       for (int i = 0; i < 5; i++) {
-        if (grid.testCoord(shiftCoord(coord, -1 * srs.getSRS(rotateState, i, 0), -1 * srs.getSRS(rotateState, i, 1))) ) {
-          shiftX = srs.getSRS(rotateState, i, 0) * -1;
-          shiftY = srs.getSRS(rotateState, i, 0) * -1;
+        int xtest = srs.getSRS(orientation, i, 0) * -1;
+        int ytest = srs.getSRS(orientation, i, 1) * -1;
+        print(xtest + ", " + ytest + " " + grid.testCoord(shiftCoord(coord, xtest, ytest)) + "\n");
+        if (grid.testCoord(shiftCoord(coord, xtest, ytest) ) ) {
+          shiftX = srs.getSRS(orientation, i, 0);
+          shiftY = srs.getSRS(orientation, i, 1);
           works = true;
           break;
         }

@@ -69,4 +69,7 @@ void keyReleased() {
   else if (key == ' ') {
     piecehandler.harddrop();
   }
+  else if (key == 'p' || key == 'r') {
+    gamehandler.reset();
+  }
 }

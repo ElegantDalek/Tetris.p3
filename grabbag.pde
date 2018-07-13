@@ -4,8 +4,6 @@ class GrabBag {
   Tetrimino[] preview = new Tetrimino[7];
   int index = 0;
   GrabBag() {
-    this.choose();
-    this.choose(); //grabs 7 pieces
     preview[0] = new Ttetris();
     preview[1] = new Ztetris();
     preview[2] = new Stetris();
@@ -13,11 +11,12 @@ class GrabBag {
     preview[4] = new Jtetris();
     preview[5] = new Otetris();
     preview[6] = new Itetris();
+    this.reset();
     for (Tetrimino i : preview) {
       i.setPosition(previewX, 0);
     }
   }
-  
+
   void reset() {
     index = 0;
     this.choose();
@@ -37,10 +36,12 @@ class GrabBag {
     //adds 7 pieces in random order to queue, guarenteed for 1 of each
     int[] numbersleft = {0, 1, 2, 3, 4, 5, 6};
     for (int max = 7; max >= 1; max--) {
-      int randomint = int(random(max));
+      int randomint = int(random(max)); 
       queue[index++] = numbersleft[randomint];
       removeItem(numbersleft[randomint], numbersleft);
     }
+    
+    
   }
   void removeItem(int number, int[]array) {
     boolean itemPopped = false;

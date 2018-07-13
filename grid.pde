@@ -18,7 +18,34 @@ class Grid {
         blockcolors[i][j] = color(255, 255, 255);
       }
     }
+    //tripletetrisdraw(true);
   }
+
+  void tripletetrisdraw(boolean right) {
+    int reflect = 1;
+    int translate = 0;
+    if (!right) {
+      reflect = -1;
+      translate = 20;
+    }
+    for (int j = 15; j < 20; j++) {
+      for (int i = 0; i < 7; i++) {
+        blocks[i * reflect + translate][j] = true;
+        blockcolors[i * reflect + translate][j] = black;
+      }
+    }
+    blocks[7 * reflect + translate][15] = true;
+    blockcolors[7 * reflect + translate][15] = black;
+    blocks[8 * reflect + translate][17] = true;
+    blockcolors[8 * reflect + translate][17] = black;
+    blocks[8 * reflect + translate][19] = true;
+    blockcolors[8 * reflect + translate][19] = black;
+    for (int i = 17; i < 20; i++) {
+      blocks[9 * reflect + translate][i] = true;
+      blockcolors[9 * reflect + translate][i] = black;
+    }
+  }
+  
   void draw() {
     for (int i = 0; i < CELL_COLUMNS; i++) {
       for (int j = 0; j < CELL_ROWS; j++) {
@@ -64,21 +91,21 @@ class Grid {
     }
     return linescleared;
   }
-  
+
   int[][] hardDropCoord(int[][] input) {
     //returns coordinates if harddropped
     int [][] coord = new int[4][2];
-      for(int i = 0; i < coord.length; i++) {
-        coord[i][0] = input[i][0];
-        coord[i][1] = input[i][1];
-      }
-    while(this.testCoord(coord)) {
-      for(int i = 0; i < coord.length; i++) {
+    for (int i = 0; i < coord.length; i++) {
+      coord[i][0] = input[i][0];
+      coord[i][1] = input[i][1];
+    }
+    while (this.testCoord(coord)) {
+      for (int i = 0; i < coord.length; i++) {
         coord[i][1] += 1;
       }
     }
-    for(int i = 0; i < coord.length; i++) {
-        coord[i][1] -= 1; //goes back one
+    for (int i = 0; i < coord.length; i++) {
+      coord[i][1] -= 1; //goes back one
     }
     return coord;
   }

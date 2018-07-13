@@ -46,12 +46,10 @@ class GameHandler {
     }
     else if (lines == 1) {
       comboscore += 1;
-      print(comboscore + "\n");
     }
     else if (lines > 1) {
       linessent += lines;
       comboscore += 1;
-      print(comboscore + "\n");
     }
   }
 }
