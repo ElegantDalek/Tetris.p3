@@ -14,22 +14,29 @@ color blue = color(59, 63, 242);
 color orange = color(224, 157, 23);
 color black = color(0, 0, 0);
 color white = color(255, 255, 255);
-color gray = color(175, 175, 175);
+color gray = color(100, 100, 100);
+color bg = white;
 Grid grid = new Grid();
 int prevtime = 0;
 GrabBag bag = new GrabBag();
 PieceHandler piecehandler = new PieceHandler();
 GameHandler gamehandler = new GameHandler();
 SRS srs = new SRS();
+Cell cell = new Cell();
+PImage cellimg;
+PImage cellshade;
+PImage bgcell;
 void setup() {
   size(800, 700);
   frameRate(30);
-  background(255);
-
+  background(bg);
+  cellimg = loadImage("cell.png");
+  cellshade = loadImage("cellshade.png");
+  bgcell = loadImage("bgcell.png");
 }
 
 void draw() {
-  background(white); //refreshes backgronud, removes lingering pixels
+  background(gray); //refreshes backgronud, removes lingering pixels
   grid.draw(); //draws the cells, pieces added to grid object
   piecehandler.draw(); //draws currently active piece
   gamehandler.update();

@@ -45,15 +45,15 @@ class Grid {
       blockcolors[9 * reflect + translate][i] = black;
     }
   }
-  
+
   void draw() {
     for (int i = 0; i < CELL_COLUMNS; i++) {
       for (int j = 0; j < CELL_ROWS; j++) {
-        if (blocks[i][j]) {
-          fill(blockcolors[i][j]);
-        }
-        rect(i * CELL_WIDTH + ORIGINX, j * CELL_WIDTH + ORIGINY, CELL_WIDTH, CELL_WIDTH);
+        cell.draw(i, j, bg);
         fill(255);
+        if (blocks[i][j]) {
+          cell.draw(i, j, blockcolors[i][j]);
+        }
       }
     }
   }

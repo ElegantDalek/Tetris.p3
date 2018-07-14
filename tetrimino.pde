@@ -17,10 +17,12 @@ class Tetrimino {
     for (int i = 0; i < coord.length; i++) {
       if (this.isActive()) {
         fill(gray); //shows shadow
-        rect(ORIGINX + CELL_WIDTH * shadow[i][0], ORIGINY + CELL_WIDTH * shadow[i][1], CELL_WIDTH, CELL_WIDTH);
+        cell.draw(shadow[i][0], shadow[i][1], gray);
       }
       fill(shade);
-      rect(ORIGINX + CELL_WIDTH * coord[i][0], ORIGINY + CELL_WIDTH * coord[i][1], CELL_WIDTH, CELL_WIDTH);
+    }
+    for (int i = 0; i < coord.length; i++) {
+      cell.draw(coord[i][0], coord[i][1], shade);
       fill(shade);
     }
   }
