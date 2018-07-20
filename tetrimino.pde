@@ -5,48 +5,49 @@ class Tetrimino {
   int positionX = defaultX;
   int positionY = defaultY;
   color shade = black;
+  boolean spunIn = false; //used in tspins, if last move before grid.add() was a rotation
   boolean isActive = false;
   int[][] piece = new int[4][2];
+  int[][] shadow = new int[4][2];
 
   Tetrimino() {
   }
 
   void draw() {
     int[][] coord = this.getCoord();
-    int[][] shadow = grid.hardDropCoord(coord);
     for (int i = 0; i < coord.length; i++) {
       if (this.isActive()) {
-        fill(gray); //shows shadow
         cell.draw(shadow[i][0], shadow[i][1], gray);
       }
-      fill(shade);
     }
     for (int i = 0; i < coord.length; i++) {
       cell.draw(coord[i][0], coord[i][1], shade);
-      fill(shade);
     }
   }
 
 
   void drop() {
-    if (this.isActive()) {
       int[][] testDrop = this.getCoord(); //copies coordinates to test with testCoord
       for ( int i = 0; i < testDrop.length; i++) {
         testDrop[i][1] += 1; //Adds predicted drop of 1
       }
       if (grid.testCoord(testDrop)) { 
         positionY += 1; //Increments position
+        spunIn = false;
       } else {
-        grid.add(this.getCoord(), this.getColor()); //adds location and color data to grid object
-        isActive = false;
-        piecehandler.nextTetris();
+        this.addPiece();
       }
-    }
+    
+  }
+
+  void addPiece() {
+    grid.add(this.getCoord(), this.getColor()); //adds location and color data to grid object
+    piecehandler.nextTetris();
   }
 
   void hardDrop() {
-    grid.add(grid.hardDropCoord(this.getCoord()), this.getColor());
     isActive = false;
+    grid.add(grid.hardDropCoord(this.getCoord()), this.getColor());
     piecehandler.nextTetris();
   }
 
@@ -61,21 +62,20 @@ class Tetrimino {
   void rotate(boolean clockwise) {
     //rotates the piece, takes boolean that if true is clockwise, else counterclockwise
     int[][] temp = new int[4][2];
-    for (int i = 0; i < piece.length; i++) {
-      if (clockwise) {
-        temp[i][0] = -1 * piece[i][1]+ 2;
-        temp[i][1] = piece[i][0];
-      } else {
-        temp[i][0] = piece[i][1];
-        temp[i][1] = (-1 * piece[i][0]) + 2;
-      }
-    }
+    temp = coordRotate(piece, clockwise);
     int[][] tempCoord = this.shiftCoord(temp, positionX, positionY);//absolute coordinates relative to grid
     for (int i = 0; i < 5; i++) {
-      int shiftX = srs.getSRSX(i, rotateState, clockwise);
-      int shiftY = srs.getSRSY(i, rotateState, clockwise);
+      int shiftX = this.getTransX(i, rotateState, clockwise);
+      int shiftY = this.getTransY(i, rotateState, clockwise);
       int[][] srsShift = this.shiftCoord(tempCoord, shiftX, shiftY);
-      print(grid.testCoord(srsShift) + " " + shiftX + " " + shiftY + "\n");
+      int futureState;
+      if (clockwise) { 
+        futureState = (rotateState + 1) % 4;
+      } else { 
+        futureState = (rotateState + 3) % 4;
+      }
+
+      print(rotateState + " >> " + futureState + "Translation: "+ shiftX + " " + shiftY + " Works?: " + grid.testCoord(srsShift) + " " + positionX + "\n");
       if (grid.testCoord(srsShift) ) {
         for (int j = 0; j < piece.length; j++) { //updates orientation
           piece[j][0] = temp[j][0];
@@ -88,9 +88,33 @@ class Tetrimino {
         } else {
           rotateState = (rotateState + 3) % 4;
         }
+        spunIn = true;
+        shadow = grid.hardDropCoord(this.getCoord());
         break;
       }
     }
+  }
+
+  int getTransX(int i, int rotateState, boolean clockwise) { //returns Xcoordinates using correct srs array
+    return srs.getSRSX(i, rotateState, clockwise);
+  }
+
+  int getTransY(int i, int rotateState, boolean clockwise) {
+    return srs.getSRSY(i, rotateState, clockwise);
+  }
+
+  int[][] coordRotate(int[][] coord, boolean clockwise) { //uses coord and rotates it, returning those coordinates
+    int[][] returnCoord = new int[4][2];
+    for (int i = 0; i < coord.length; i++) {
+      if (clockwise) {
+        returnCoord[i][0] = -1 * coord[i][1]+ 2;
+        returnCoord[i][1] = coord[i][0];
+      } else {
+        returnCoord[i][0] = coord[i][1];
+        returnCoord[i][1] = (-1 * coord[i][0]) + 2;
+      }
+    }
+    return returnCoord;
   }
 
   int[][] shiftCoord(int[][] coord, int x, int y) {
@@ -106,7 +130,8 @@ class Tetrimino {
     //sets default orientation for pieces
   }
 
-  void move(boolean right) {
+  void move(boolean right) { //TODO: MAKE MORE CONSISE
+    if( this.isActive()) {
     int[][] test = this.getCoord(); //copies coordinates to test with testCoord, see drop
     if (right) {
       for ( int i = 0; i < test.length; i++) {
@@ -114,6 +139,7 @@ class Tetrimino {
       }
       if (grid.testCoord(test)) {
         positionX += 1;
+        shadow = grid.hardDropCoord(this.getCoord());
       }
     } else {
       for ( int i = 0; i < test.length; i++) {
@@ -121,7 +147,10 @@ class Tetrimino {
       }
       if (grid.testCoord(test)) {
         positionX -= 1;
+        shadow = grid.hardDropCoord(this.getCoord());
+        print(positionX + "\n");
       }
+    }
     }
   }
   int[][] getCoord() { //gets x and y position of the tetrimino piece, x stored in [i][0], y stored in [i][1]
@@ -146,11 +175,17 @@ class Tetrimino {
   int[][] getPiece() {
     return piece;
   }
+  
+  boolean isTSpin() {
+    return false;
+  }
 
   void reset() {
     this.setPosition(defaultX, defaultY);
     this.setdefault();
     this.rotateState = 0;
+    this.spunIn = false;
+    shadow = grid.hardDropCoord(this.getCoord());
     gamehandler.setGameOver(!grid.testCoord(this.getCoord())); //checks if game over
     isActive = true;
   }

@@ -36,7 +36,7 @@ void setup() {
 }
 
 void draw() {
-  background(gray); //refreshes backgronud, removes lingering pixels
+  background(bg); //refreshes backgronud, removes lingering pixels
   grid.draw(); //draws the cells, pieces added to grid object
   piecehandler.draw(); //draws currently active piece
   gamehandler.update();

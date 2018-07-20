@@ -18,6 +18,22 @@ class SRS {
     }
   };
 
+  int[][][] srsI = {
+    //specific to I piece
+    { //3>>0, index 0
+      {0, 0}, {1, 0}, {-2, 0}, {1, 2}, {-2, -1}
+    }, 
+    { //0 >> 1, index 1
+      {0, 0}, {-2, 0}, {1, 0}, {-2, 1}, {1, -2}
+    },
+    { //1 >> 2, index 1
+      {0, 0}, {-1, 0}, {2, 0}, {-1, -2}, {2, 1}
+    },
+    { //2 >> 3, index 2
+      {0, 0}, {2, 0}, {-1, 0}, {2, -1}, {-1, 2}
+    }
+  };
+
   int getSRSX(int iteration, int orientation, boolean clockwise) {
     if (clockwise) {
       return srs[(orientation + 1) % 4][iteration][0];
@@ -31,6 +47,22 @@ class SRS {
       return srs[(orientation + 1) % 4][iteration][1];
     } else {
       return -1 * srs[orientation][iteration][1];
+    }
+  }
+
+  int getSRSIX(int iteration, int orientation, boolean clockwise) {
+    if (clockwise) {
+      return srsI[(orientation + 1) % 4][iteration][0];
+    } else {
+      return -1 * srsI[orientation][iteration][0];
+    }
+  }
+
+  int getSRSIY(int iteration, int orientation, boolean clockwise) {
+    if (clockwise) {
+      return srsI[(orientation + 1) % 4][iteration][1];
+    } else {
+      return -1 * srsI[orientation][iteration][1];
     }
   }
 }

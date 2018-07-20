@@ -59,8 +59,9 @@ class PieceHandler {
   }
   void nextTetris() {
     if (!gamehandler.isGameOver()) {
+      boolean tSpin = activeTetrimino.isTSpin(); //needs to be seperate line otherwise grid gets cleared first
       switchlock = false; //for held pieces
-      gamehandler.addScore(grid.checkLines());
+      gamehandler.addScore(grid.checkLines(), tSpin);
       activeTetrimino.setActive(false);
       activeTetrimino = piece[bag.getPiece()];
       activeTetrimino.setActive(true);
@@ -99,7 +100,7 @@ class PieceHandler {
   void harddrop() {
     activeTetrimino.hardDrop();
   }
-  
+
   void resetPiece() {
     activeTetrimino = piece[bag.getPiece()];
     activeTetrimino.reset();
