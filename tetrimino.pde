@@ -74,14 +74,6 @@ class Tetrimino {
       int shiftX = this.getTransX(i, rotateState, clockwise);
       int shiftY = this.getTransY(i, rotateState, clockwise);
       int[][] srsShift = this.shiftCoord(tempCoord, shiftX, shiftY);
-      int futureState;
-      if (clockwise) { 
-        futureState = (rotateState + 1) % 4;
-      } else { 
-        futureState = (rotateState + 3) % 4;
-      }
-
-      print(rotateState + " >> " + futureState + "Translation: "+ shiftX + " " + shiftY + " Works?: " + grid.testCoord(srsShift) + " " + positionX + "\n");
       if (grid.testCoord(srsShift) ) {
         for (int j = 0; j < piece.length; j++) { //updates orientation
           piece[j][0] = temp[j][0];
@@ -154,7 +146,6 @@ class Tetrimino {
       if (grid.testCoord(test)) {
         positionX -= 1;
         this.updateShadow();
-        print(positionX + "\n");
       }
     }
     }

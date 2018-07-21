@@ -1,6 +1,6 @@
 
 class Otetris extends Tetrimino {
-  
+
   Otetris() {
     this.setdefault();
     shade = yellow;
@@ -50,7 +50,7 @@ class Itetris extends Tetrimino {
       piece[i][1] = rotationCoord[0][i][1];
     }
   }
-  int[][] rotateCoord(int[][] piece, boolean clockwise) {
+  int[][] coordRotate(int[][] piece, boolean clockwise) {
     int[][] returnCoord = new int[4][2];
     int orientation; //future orientation
     if (clockwise) {

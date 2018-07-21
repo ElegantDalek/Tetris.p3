@@ -52,7 +52,7 @@ class GameHandler {
       lineone = lineone.substring(0, i + 1);
     }
     textSize(30);
-    fill((millis - initAnnounceTime) / 5);
+    fill((millis - initAnnounceTime) / 5); //fades text
     text(lineone, 50, 580);
     text(linetwo, 50, 620);
     fill(white);
