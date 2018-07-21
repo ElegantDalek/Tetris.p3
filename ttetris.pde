@@ -22,8 +22,7 @@ class Ttetris extends Tetrimino {
     if (spunIn) {
       for (int i = 0; i < 3; i += 2) {
         for (int j = 0; j < 3; j += 2) {
-          int[][] cellCoord = { {(i + positionX), (j + positionY)} };
-          print((i + positionX) + ", " + (j + positionY) + "\n");
+          int[][] cellCoord = { {i + positionX, j + positionY} };
           if (!grid.testCoord(cellCoord)) {
             cornersFilled += 1;
           }

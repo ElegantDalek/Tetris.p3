@@ -39,7 +39,7 @@ void draw() {
   background(bg); //refreshes backgronud, removes lingering pixels
   grid.draw(); //draws the cells, pieces added to grid object
   piecehandler.draw(); //draws currently active piece
-  gamehandler.update();
+  gamehandler.update(); //shows scores
   int time = second();
   if (time != prevtime) {
     piecehandler.drop();

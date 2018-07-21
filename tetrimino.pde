@@ -53,8 +53,14 @@ class Tetrimino {
 
   void setActive(boolean active) {
     this.isActive = active;
+    if (this.isActive) {
+    this.updateShadow();
+    }
   }
 
+  void updateShadow() { //repositions piece based on current active piece coords
+    shadow = grid.hardDropCoord(this.getCoord());
+  }
   boolean isActive() {
     return isActive;
   }
@@ -89,7 +95,7 @@ class Tetrimino {
           rotateState = (rotateState + 3) % 4;
         }
         spunIn = true;
-        shadow = grid.hardDropCoord(this.getCoord());
+        this.updateShadow();
         break;
       }
     }
@@ -139,7 +145,7 @@ class Tetrimino {
       }
       if (grid.testCoord(test)) {
         positionX += 1;
-        shadow = grid.hardDropCoord(this.getCoord());
+        this.updateShadow();
       }
     } else {
       for ( int i = 0; i < test.length; i++) {
@@ -147,7 +153,7 @@ class Tetrimino {
       }
       if (grid.testCoord(test)) {
         positionX -= 1;
-        shadow = grid.hardDropCoord(this.getCoord());
+        this.updateShadow();
         print(positionX + "\n");
       }
     }
@@ -185,7 +191,7 @@ class Tetrimino {
     this.setdefault();
     this.rotateState = 0;
     this.spunIn = false;
-    shadow = grid.hardDropCoord(this.getCoord());
+    this.updateShadow();
     gamehandler.setGameOver(!grid.testCoord(this.getCoord())); //checks if game over
     isActive = true;
   }
