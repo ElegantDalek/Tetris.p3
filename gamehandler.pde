@@ -1,10 +1,11 @@
 class GameHandler {
   int linessent;
-  int comboscore;
+  int comboscore = -1;
   boolean gameOver = false;
   boolean backToBack = false;
   String announceText = "";
   int initAnnounceTime;
+  String[] announceWords = {"Back to Back", "Single!", "Double!", "Triple!"};
   GameHandler() {
     linessent = 0;
     comboscore = 0;
@@ -30,6 +31,7 @@ class GameHandler {
     bag.reset();
     piecehandler.resetPiece();
     linessent = 0;
+    backToBack = false;
     gameOver = false;
   }
   void showScore() {
@@ -41,21 +43,30 @@ class GameHandler {
   }
   
   void drawAnnounceText() {
+    String lineone = announceText;
+    String linetwo = "";
+    if (lineone.length() > 11) { //adjusts text to fit beside play field
+      int i;
+      for (i = 11; lineone.charAt(i) != ' '; i--) {}
+      linetwo = lineone.substring(i + 1);
+      lineone = lineone.substring(0, i + 1);
+    }
     textSize(30);
-    text(announceText, 50, 580);
+    fill((millis - initAnnounceTime) / 5);
+    text(lineone, 50, 580);
+    text(linetwo, 50, 620);
     fill(white);
   }
   
   void announce(String text) {
     announceText = text;
     initAnnounceTime = millis;
-    print("TIME: " + initAnnounceTime);
   }
 
   void addScore(int lines, boolean tSpin) {
     this.tSpinUpdate(lines, tSpin);
-    //this.comboUpdate(lines);
-    if (!tSpin) {
+    this.comboUpdate(lines);
+    if (!tSpin && comboscore < 1) {
       switch(lines) {
       case 0:
         break;
@@ -65,10 +76,12 @@ class GameHandler {
       case 2:
         backToBack = false;
         this.addLines(lines);
+        this.announce("Double!");
         break;
       case 3:
         backToBack = false;
         this.addLines(lines);
+        this.announce("Triple!");
         break;
       case 4:
         this.tetris(lines);
@@ -79,9 +92,10 @@ class GameHandler {
 
   }
   void tSpinUpdate(int lines, boolean tSpin) {
-    if (tSpin) {
-      this.announce("T-spin!");
+    if (tSpin && lines > 0) {
+      this.announce("T-spin " + announceWords[lines]);
       if (backToBack) {
+        this.announce(announceWords[0] + " Tetris!"); //overrides first statement
         this.addLines(lines * 2 + 1);
       } else {
         this.addLines(lines * 2);
@@ -89,12 +103,25 @@ class GameHandler {
       backToBack = true;
     }
   }
+  
+  void comboUpdate(int lines) {
+    if (lines > 0) {
+      comboscore += 1;
+      if (comboscore > 0) {
+        this.announce("Combo: " + comboscore);
+      }
+    }
+    else {
+      comboscore = -1;
+    }
+  }
 
   void tetris(int lines) {
-    this.announce("Tetris!");
     if (backToBack) {
+      this.announce(announceWords[0] + " Tetris!");
       this.addLines(lines + 1);
     } else {
+      this.announce("Tetris!");
       this.addLines(lines);
     }
     backToBack = true;
