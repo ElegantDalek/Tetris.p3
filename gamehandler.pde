@@ -6,6 +6,7 @@ class GameHandler {
   String announceText = "";
   int initAnnounceTime;
   String[] announceWords = {"Back to Back", "Single!", "Double!", "Triple!"};
+  int[] comboRampUp = {0, 0, 1, 1, 1, 3, 3, 4, 4, 4, 4, 4, 5}; //amount of lines sent based on comboscore
   GameHandler() {
     linessent = 0;
     comboscore = 0;
@@ -88,9 +89,12 @@ class GameHandler {
         break;
       }
     }
-
-
   }
+  
+  void perfectClear() {
+    addLines(10);
+  }
+  
   void tSpinUpdate(int lines, boolean tSpin) {
     if (tSpin && lines > 0) {
       this.announce("T-spin " + announceWords[lines]);
@@ -107,7 +111,8 @@ class GameHandler {
   void comboUpdate(int lines) {
     if (lines > 0) {
       comboscore += 1;
-      if (comboscore > 0) {
+      this.addLines(comboRampUp[comboscore]);
+      if (comboRampUp[comboscore] > 0) {
         this.announce("Combo: " + comboscore);
       }
     }

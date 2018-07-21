@@ -1,5 +1,5 @@
 class Tetrimino {
-  int defaultX = 4;
+  int defaultX = 3;
   int defaultY = 0;
   int rotateState = 0;
   int positionX = defaultX;

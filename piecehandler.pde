@@ -62,6 +62,9 @@ class PieceHandler {
       boolean tSpin = activeTetrimino.isTSpin(); //needs to be seperate line otherwise grid gets cleared first
       switchlock = false; //for held pieces
       gamehandler.addScore(grid.checkLines(), tSpin);
+      if(grid.checkPerfectClear()) {
+        gamehandler.addLines(10);
+      }
       activeTetrimino.setActive(false);
       activeTetrimino = piece[bag.getPiece()];
       activeTetrimino.setActive(true);

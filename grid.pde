@@ -97,4 +97,15 @@ class Grid {
       }
     }
   }
+  
+  boolean checkPerfectClear() {
+    for (int i = 0; i < CELL_COLUMNS; i++) {
+      for (int j = 0; j < CELL_ROWS; j++) {
+        if (blocks[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 }
