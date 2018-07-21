@@ -23,6 +23,7 @@ PieceHandler piecehandler = new PieceHandler();
 GameHandler gamehandler = new GameHandler();
 SRS srs = new SRS();
 Cell cell = new Cell();
+int millis;
 PImage cellimg;
 PImage cellshade;
 PImage bgcell;
@@ -41,6 +42,7 @@ void draw() {
   piecehandler.draw(); //draws currently active piece
   gamehandler.update(); //shows scores
   int time = second();
+  millis = millis();
   if (time != prevtime) {
     piecehandler.drop();
     prevtime = time;
