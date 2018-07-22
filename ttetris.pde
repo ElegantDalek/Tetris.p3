@@ -28,7 +28,6 @@ class Ttetris extends Tetrimino {
           }
         }
       }
-      print(cornersFilled);
       if (cornersFilled >= 3) {
         return true;
       }

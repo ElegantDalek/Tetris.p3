@@ -92,7 +92,7 @@ class GameHandler {
   }
   
   void perfectClear() {
-    addLines(10);
+    this.addLines(10);
   }
   
   void tSpinUpdate(int lines, boolean tSpin) {
@@ -131,8 +131,7 @@ class GameHandler {
     }
     backToBack = true;
   }
-
-
+  
   void addLines(int lines) {
     linessent += lines;
   }

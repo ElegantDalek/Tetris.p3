@@ -49,6 +49,31 @@ class Grid {
     return true;
   }
 
+  void addTrash(int lines) {
+    int emptyCell = int(random(CELL_COLUMNS));
+    for (int j = 0; j < CELL_ROWS; j++) {
+      for (int i = 0; i < CELL_COLUMNS; i++) {
+        if (j < CELL_ROWS - lines) { //moves exisiting pieces upwards, TODO: keep pieces out of bounds in seperate grid?
+          try {
+            blocks[i][j] = blocks[i][j + lines];
+            blockcolors[i][j] = blockcolors[i][j + lines];
+          }
+          catch (ArrayIndexOutOfBoundsException e) {
+          }
+        } else { //fills in the trash
+          if (i != emptyCell) {
+            blocks[i][j] = true;
+            blockcolors[i][j] = trashgray;
+          } else {
+            blocks[i][j] = false;
+            blockcolors[i][j] = white;
+          }
+        }
+      }
+    }
+    piecehandler.getActive().updateShadow(); //updates shadow of active tetrimino
+  }
+
   int checkLines() { //goes down, if coord row all true, removes lines
     int linescleared = 0;
     for (int j = 0; j < CELL_ROWS; j++) {
@@ -97,7 +122,7 @@ class Grid {
       }
     }
   }
-  
+
   boolean checkPerfectClear() {
     for (int i = 0; i < CELL_COLUMNS; i++) {
       for (int j = 0; j < CELL_ROWS; j++) {
