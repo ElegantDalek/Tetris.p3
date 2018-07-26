@@ -99,7 +99,7 @@ class GameHandler {
     if (tSpin && lines > 0) {
       this.announce("T-spin " + announceWords[lines]);
       if (backToBack) {
-        this.announce(announceWords[0] + " Tetris!"); //overrides first statement
+        this.announce(announceWords[0] + " T-spin!"); //overrides first statement
         this.addLines(lines * 2 + 1);
       } else {
         this.addLines(lines * 2);

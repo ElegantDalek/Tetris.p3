@@ -40,9 +40,12 @@ class GrabBag {
       queue[index++] = numbersleft[randomint];
       removeItem(numbersleft[randomint], numbersleft);
     }
-    
-    
   }
+  
+  int getQueue(int index) {
+    return queue[index];
+  }
+  
   void removeItem(int number, int[]array) {
     boolean itemPopped = false;
     for (int i = 0; i < array.length; i++) { //removes number from array

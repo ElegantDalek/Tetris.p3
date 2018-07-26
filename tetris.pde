@@ -18,12 +18,14 @@ color gray = color(100, 100, 100);
 color trashgray = color(120, 120, 120);
 color bg = white;
 Grid grid = new Grid();
+Surface face = new Surface();
 int prevtime = 0;
 GrabBag bag = new GrabBag();
 PieceHandler piecehandler = new PieceHandler();
 GameHandler gamehandler = new GameHandler();
 SRS srs = new SRS();
 Cell cell = new Cell();
+Player ai = new Player();
 int millis;
 PImage cellimg;
 PImage cellshade;
@@ -84,5 +86,7 @@ void keyReleased() {
     grid.addTrash(3);
   } else if (key == '4') {
     grid.addTrash(4);
+  } else if (key == 'j') {
+    ai.evaluate();
   }
 }

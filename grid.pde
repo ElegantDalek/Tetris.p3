@@ -108,8 +108,22 @@ class Grid {
     }
     return coord;
   }
+
+  int[] getSurfaceCells() {
+    int[] yValues = new int[CELL_COLUMNS];
+    for (int i = 0; i < CELL_COLUMNS; i++) {
+      yValues[i] = 20;
+      for (int j = 0; j < CELL_ROWS; j++) {
+        if (blocks[i][j]) {
+          yValues[i] = j;
+          break;
+        }
+      }
+    }
+    return yValues;
+  }
   void clearline(int line) {
-    for (; line > 0; line--) {
+    for (; line >= 0; line--) {
       for (int i = 0; i < CELL_COLUMNS; i++) {
         try {
           blocks[i][line] = blocks[i][line - 1];
