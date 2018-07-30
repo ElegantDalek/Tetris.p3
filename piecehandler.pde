@@ -48,6 +48,10 @@ class PieceHandler {
     }
     pieceheld = true;
   }
+  
+  boolean getHeld() {
+    return !switchlock;
+  }
 
   int pieceToInt(Tetrimino tetris) {
     for (int i = 0; i <= piece.length; i++) {
@@ -82,7 +86,7 @@ class PieceHandler {
     if (pieceheld) {
       heldTetrimino.draw();
     }
-    bag.showPreview(); //draws next 5? pieces
+    bag.showPreview(); //draws next 5 pieces
   }
 
   void drop() {
@@ -100,8 +104,24 @@ class PieceHandler {
   void reset() {
     activeTetrimino.reset();
   }
-  void harddrop() {
+  void harddrop() { // TODO: change to camelCase
     activeTetrimino.hardDrop();
+  }
+  
+  void setPosition(int x, int y) {
+    activeTetrimino.setPosition(x, y);
+  }
+  
+  void rotate(int rotateState) {
+    if (rotateState == 0) {}
+    else if (rotateState == 1) {
+      activeTetrimino.rotate(true);
+    } else if (rotateState == 2) {
+      activeTetrimino.rotate(true);
+      activeTetrimino.rotate(true);
+    } else if (rotateState == 3) {
+      activeTetrimino.rotate(false);
+    }
   }
 
   void resetPiece() {

@@ -5,9 +5,13 @@ class Grid {
     this.clear();
   }
   void add(int coord[][], color shade) {
+    try {
     for (int i = 0; i < (coord.length); i++) {
       blocks[coord[i][0]] [coord[i][1]] = true;
       blockcolors[coord[i][0]] [coord[i][1]] = shade;
+    }
+    } catch (ArrayIndexOutOfBoundsException e) {
+      gamehandler.setGameOver(true);
     }
   }
 

@@ -6,16 +6,16 @@ class Otetris extends Tetrimino {
     shade = yellow;
   }
   void setdefault() {
-    piece[0][0] = 1;
+    piece[0][0] = 0;
     piece[0][1] = 0;
 
-    piece[1][0] = 2;
+    piece[1][0] = 1;
     piece[1][1] = 0;
 
     piece[2][0] = 1;
     piece[2][1] = 1;
 
-    piece[3][0] = 2;
+    piece[3][0] = 0;
     piece[3][1] = 1;
   }
   void rotate(boolean clockwise) {

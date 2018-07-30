@@ -167,6 +167,7 @@ class Tetrimino {
   void setPosition(int x, int y) {
     positionX = x;
     positionY = y;
+    this.updateShadow();
   }
 
   int[][] getPiece() {

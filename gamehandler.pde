@@ -23,7 +23,16 @@ class GameHandler {
   void update() {
     gamehandler.showScore();
     if (this.isGameOver()) {
-      gamehandler.reset();
+      if (trialnumber <= totaltrials) {
+        sumscores += linessent;
+        
+        if (linessent > highscore) {
+          highscore = linessent;
+        }
+        print("Trial " + trialnumber + " Average: " + sumscores/trialnumber + " High Score: " + highscore + "\n");
+        trialnumber++;
+        gamehandler.reset();
+      }
     }
   }
 
@@ -42,13 +51,14 @@ class GameHandler {
     drawAnnounceText();
     fill(white);
   }
-  
+
   void drawAnnounceText() {
     String lineone = announceText;
     String linetwo = "";
     if (lineone.length() > 11) { //adjusts text to fit beside play field
       int i;
-      for (i = 11; lineone.charAt(i) != ' '; i--) {}
+      for (i = 11; lineone.charAt(i) != ' '; i--) {
+      }
       linetwo = lineone.substring(i + 1);
       lineone = lineone.substring(0, i + 1);
     }
@@ -58,7 +68,7 @@ class GameHandler {
     text(linetwo, 50, 620);
     fill(white);
   }
-  
+
   void announce(String text) {
     announceText = text;
     initAnnounceTime = millis;
@@ -73,6 +83,7 @@ class GameHandler {
         break;
       case 1:
         backToBack = false;
+        this.addLines(lines); // REMOVE AFTER AI SCORING, NOT IN OFFICIAL GAME
         break;
       case 2:
         backToBack = false;
@@ -90,11 +101,11 @@ class GameHandler {
       }
     }
   }
-  
+
   void perfectClear() {
     this.addLines(10);
   }
-  
+
   void tSpinUpdate(int lines, boolean tSpin) {
     if (tSpin && lines > 0) {
       this.announce("T-spin " + announceWords[lines]);
@@ -107,16 +118,21 @@ class GameHandler {
       backToBack = true;
     }
   }
-  
+
   void comboUpdate(int lines) {
     if (lines > 0) {
       comboscore += 1;
-      this.addLines(comboRampUp[comboscore]);
-      if (comboRampUp[comboscore] > 0) {
-        this.announce("Combo: " + comboscore);
+      try {
+        this.addLines(comboRampUp[comboscore]);
+        if (comboRampUp[comboscore] > 0) {
+          this.announce("Combo: " + comboscore);
+        }
       }
-    }
-    else {
+      catch (ArrayIndexOutOfBoundsException e) {
+        this.addLines(5);
+        this.announce("combo: " + comboscore);
+      }
+    } else {
       comboscore = -1;
     }
   }
@@ -131,7 +147,7 @@ class GameHandler {
     }
     backToBack = true;
   }
-  
+
   void addLines(int lines) {
     linessent += lines;
   }

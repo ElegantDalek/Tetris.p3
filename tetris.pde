@@ -30,6 +30,13 @@ int millis;
 PImage cellimg;
 PImage cellshade;
 PImage bgcell;
+
+// FOR TESTING PURPOSES
+int trialnumber = 1;
+int sumscores = 0;
+int totaltrials = 100;
+int highscore = 0;
+
 void setup() {
   size(800, 700);
   frameRate(30);
@@ -47,9 +54,12 @@ void draw() {
   int time = second();
   millis = millis();
   if (time != prevtime) {
-    piecehandler.drop();
+    //piecehandler.drop();
     prevtime = time;
   }
+
+    ai.evaluate();
+  
 }
 
 void keyPressed() {
