@@ -48,7 +48,7 @@ class PieceHandler {
     }
     pieceheld = true;
   }
-  
+
   boolean getHeld() {
     return !switchlock;
   }
@@ -66,7 +66,7 @@ class PieceHandler {
       boolean tSpin = activeTetrimino.isTSpin(); //needs to be seperate line otherwise grid gets cleared first
       switchlock = false; //for held pieces
       gamehandler.addScore(grid.checkLines(), tSpin);
-      if(grid.checkPerfectClear()) {
+      if (grid.checkPerfectClear()) {
         gamehandler.perfectClear();
       }
       activeTetrimino.setActive(false);
@@ -107,14 +107,26 @@ class PieceHandler {
   void harddrop() { // TODO: change to camelCase
     activeTetrimino.hardDrop();
   }
+
+  int getXPos() {
+    return activeTetrimino.getXPos();
+  }
+
+  int getRotateState() {
+    return activeTetrimino.getRotateState();
+  }
   
+  int getPieceInt() {
+    return this.pieceToInt(activeTetrimino);
+  }
+
   void setPosition(int x, int y) {
     activeTetrimino.setPosition(x, y);
   }
-  
+
   void rotate(int rotateState) {
-    if (rotateState == 0) {}
-    else if (rotateState == 1) {
+    if (rotateState == 0) {
+    } else if (rotateState == 1) {
       activeTetrimino.rotate(true);
     } else if (rotateState == 2) {
       activeTetrimino.rotate(true);

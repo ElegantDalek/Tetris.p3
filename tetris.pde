@@ -53,12 +53,14 @@ void draw() {
   gamehandler.update(); //shows scores
   int time = second();
   millis = millis();
+  ai.evaluate();
   if (time != prevtime) {
-    //piecehandler.drop();
+
+    piecehandler.drop();
     prevtime = time;
   }
 
-    ai.evaluate();
+
   
 }
 

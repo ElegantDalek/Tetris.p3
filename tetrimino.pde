@@ -174,6 +174,15 @@ class Tetrimino {
     return piece;
   }
   
+  int getRotateState() {
+    return rotateState;
+  }
+  
+  int getXPos() {
+    return positionX;
+  }
+  
+  
   boolean isTSpin() {
     return false;
   }

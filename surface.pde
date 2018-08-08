@@ -1,8 +1,12 @@
 class Surface { //through int code returns ycoords of top or bottom surface
   Surface() {}
   
-  int[][] getBottom(int piece) {
-    return bottom[piece];
+  int[] getBottom(int piece, int rotateState) {
+    return bottom[piece][rotateState];
+  }
+  
+  int getBottomLength(int piece) {
+    return bottom[piece].length;
   }
   
   int[] getTop(int piece, int rotateState) {
@@ -47,7 +51,7 @@ class Surface { //through int code returns ycoords of top or bottom surface
       {-1, -1, -2}, {-3, -1}, {-2, -1, -1}, {-1, -3}
     },
     { // J tetris
-      {-2, -1, -1}, {-1, -3}, {-2, -1, -1}, {-3, -1}
+      {-2, -1, -1}, {-3, -1}, {-2, -1, -1}, {-1, -3}
     },
     { // O tetris
       {-2, -2}

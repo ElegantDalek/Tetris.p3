@@ -6,11 +6,12 @@ class Grid {
   }
   void add(int coord[][], color shade) {
     try {
-    for (int i = 0; i < (coord.length); i++) {
-      blocks[coord[i][0]] [coord[i][1]] = true;
-      blockcolors[coord[i][0]] [coord[i][1]] = shade;
-    }
-    } catch (ArrayIndexOutOfBoundsException e) {
+      for (int i = 0; i < (coord.length); i++) {
+        blocks[coord[i][0]] [coord[i][1]] = true;
+        blockcolors[coord[i][0]] [coord[i][1]] = shade;
+      }
+    } 
+    catch (ArrayIndexOutOfBoundsException e) {
       gamehandler.setGameOver(true);
     }
   }
@@ -113,19 +114,10 @@ class Grid {
     return coord;
   }
 
-  int[] getSurfaceCells() {
-    int[] yValues = new int[CELL_COLUMNS];
-    for (int i = 0; i < CELL_COLUMNS; i++) {
-      yValues[i] = 20;
-      for (int j = 0; j < CELL_ROWS; j++) {
-        if (blocks[i][j]) {
-          yValues[i] = j;
-          break;
-        }
-      }
-    }
-    return yValues;
+  boolean[][] getCellCoords() {
+    return blocks;
   }
+
   void clearline(int line) {
     for (; line >= 0; line--) {
       for (int i = 0; i < CELL_COLUMNS; i++) {
